@@ -1,0 +1,38 @@
+{
+    "name": "simplepleb/thememanager-module",
+    "description": "",
+    "type": "laravel-module",
+    "version": "v1.0",
+    "license": ["GPL-3.0-or-later"],
+    "authors": [
+        {
+            "name": "SimplePleb",
+            "email": "plebeian.tribune@protonmail.com"
+        }
+    ],
+    "require": {
+        "simplepleb/themes": "dev-main"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\ThemeManager\\Providers\\ThemeManagerServiceProvider"
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ThemeManager\\": ""
+        }
+    },
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/simplepleb/themes.git"
+        }
+    ]
+}

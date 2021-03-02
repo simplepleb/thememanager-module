@@ -1,0 +1,13 @@
+{
+    "name": "ThemeManager",
+    "alias": "thememanager",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ThemeManager\\Providers\\ThemeManagerServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
