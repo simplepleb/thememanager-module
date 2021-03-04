@@ -20,7 +20,7 @@
  *
  */
 
-namespace Modules\ThemeManager\Http\Controllers\Backend;
+namespace Modules\ThemeManager\Http\Controllers\Frontend;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
