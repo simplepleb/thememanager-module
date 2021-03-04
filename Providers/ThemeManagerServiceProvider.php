@@ -23,6 +23,8 @@
 namespace Modules\ThemeManager\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Symfony\Component\Finder\Finder;
+
 use Illuminate\Database\Eloquent\Factory;
 
 class ThemeManagerServiceProvider extends ServiceProvider
@@ -55,6 +57,13 @@ class ThemeManagerServiceProvider extends ServiceProvider
 
         // register commands
         $this->registerCommands('\Modules\ThemeManager\Console');
+
+        $path_to = module_path('ThemeManager');
+
+        $this->publishes([
+            $path_to . '/Resources/views/components' => base_path('resources/views/components'),
+        ], 'theme-manager');
+
     }
 
     /**
