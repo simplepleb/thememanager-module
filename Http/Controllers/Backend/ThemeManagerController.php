@@ -149,9 +149,15 @@ class ThemeManagerController extends Controller
         //
     }
 
-    public function disable(Request $request)
+    public function disable()
     {
-        //
+        SiteTheme::where('active',1)->update(['active'=>0]);
+
+        Flash::success("<i class='fas fa-check'></i> Themes Disabled")->important();
+
+        // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return redirect("admin/thememanager");
     }
 
     /**
@@ -174,8 +180,18 @@ class ThemeManagerController extends Controller
 
         return Theme::view($vname, $data);
     }
+
     public function refresh()
     {
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'Store';
+
         $dir = public_path('themes/').'*';
         $path = public_path().'/themes/';
 
@@ -224,6 +240,34 @@ class ThemeManagerController extends Controller
             //echo "filename: $file : filetype: " . filetype($file) . "<br />";
 
         }
+
+        Flash::success("<i class='fas fa-check'></i> Themes Refreshed")->important();
+
+        // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return redirect("admin/$module_name");
+    }
+
+    public function settings($name){
+
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'Settings';
+
+        $$module_name_singular = SiteTheme::where('slug', $name)->first();
+        //dd( $settings );
+
+        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return view(
+            "thememanager::backend.settings",
+            compact( 'module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular")
+        );
     }
 
 
