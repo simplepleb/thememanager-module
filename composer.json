@@ -26,7 +26,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\ThemeManager\\": ""
+            "Modules\\Thememanager\\": ""
         }
     },
     "minimum-stability": "dev",

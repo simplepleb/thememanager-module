@@ -1,4 +1,4 @@
-# ThemeManager Module
+# Thememanager Module
 
 Theme Management (Front End) For Laravel CMS.
 
