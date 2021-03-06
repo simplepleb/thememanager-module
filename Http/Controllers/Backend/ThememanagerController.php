@@ -20,7 +20,7 @@
  *
  */
 
-namespace Modules\ThemeManager\Http\Controllers\Backend;
+namespace Modules\Thememanager\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
@@ -33,7 +33,7 @@ use Log;
 use Modules\Thememanager\Entities\SiteTheme;
 use Theme;
 
-class ThemeManagerController extends Controller
+class ThememanagerController extends Controller
 {
 
 
@@ -61,7 +61,7 @@ class ThemeManagerController extends Controller
     public function __construct()
     {
         // Page Title
-        $this->module_title = 'ThemeManager';
+        $this->module_title = 'Thememanager';
 
         // module name
         $this->module_name = 'thememanager';
@@ -73,7 +73,7 @@ class ThemeManagerController extends Controller
         $this->module_icon = 'fas fa-file-alt';
 
         // module model name, path
-        $this->module_model = "Modules\ThemeManager\Entities\SiteTheme";
+        $this->module_model = "Modules\Thememanager\Entities\SiteTheme";
     }
 
     /**

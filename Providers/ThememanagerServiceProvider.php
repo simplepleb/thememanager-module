@@ -20,19 +20,19 @@
  *
  */
 
-namespace Modules\ThemeManager\Providers;
+namespace Modules\Thememanager\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Symfony\Component\Finder\Finder;
 
 use Illuminate\Database\Eloquent\Factory;
 
-class ThemeManagerServiceProvider extends ServiceProvider
+class ThememanagerServiceProvider extends ServiceProvider
 {
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'ThemeManager';
+    protected $moduleName = 'Thememanager';
 
     /**
      * @var string $moduleNameLower
@@ -53,12 +53,12 @@ class ThemeManagerServiceProvider extends ServiceProvider
 
         // adding global middleware
         $kernel = $this->app->make('Illuminate\Contracts\Http\Kernel');
-        $kernel->pushMiddleware('Modules\ThemeManager\Http\Middleware\GenerateMenus');
+        $kernel->pushMiddleware('Modules\Thememanager\Http\Middleware\GenerateMenus');
 
         // register commands
-        $this->registerCommands('\Modules\ThemeManager\Console');
+        $this->registerCommands('\Modules\Thememanager\Console');
 
-        $path_to = module_path('ThemeManager');
+        $path_to = module_path('Thememanager');
 
         $this->publishes([
             $path_to . '/Resources/views/components' => base_path('resources/views/components'),

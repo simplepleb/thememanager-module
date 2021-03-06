@@ -17,7 +17,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\ThemeManager\\Providers\\ThemeManagerServiceProvider"
+              "ThememanagerServiceProvider"
             ],
             "aliases": {
 

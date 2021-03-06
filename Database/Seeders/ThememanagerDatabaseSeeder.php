@@ -20,12 +20,12 @@
  *
  */
 
-namespace Modules\ThemeManager\Database\Seeders;
+namespace Modules\Thememanager\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class ThemeManagerDatabaseSeeder extends Seeder
+class ThememanagerDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

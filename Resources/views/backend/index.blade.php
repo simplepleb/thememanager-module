@@ -41,14 +41,22 @@
                         $img_file = base_path('public/themes/'.$settings->slug.'/screenshot.jpeg');
                         $img_src = file_exists($img_file) ? '/themes/'.$settings->slug.'/screenshot.jpeg' : 'https://via.placeholder.com/1170x780';
                 @endphp
-            <div class="col">
-                <div class="card" style="width: 18rem;">
+            <div class="col-4">
+                <div class="card">
                     <img class="card-img-top" src="{{ $img_src }}" alt="Theme Name">
                     <div class="card-body">
                         <h5 class="card-title">{{ ucwords($settings->name) }}&nbsp;<small>by: @if($settings->web)<a href="{{ $settings->web }}" target="_blank">@endif {{ $settings->author }}@if($settings->web)</a> @endif</small></h5>
                         <p class="card-text">{{ $settings->description }}</p>
-                        <a href="#" class="btn btn-primary @if($theme->active) disabled @endif"><i class="fas fa-check-double"></i> &nbsp;Make Active</a>
-                        <a href="#" class="btn btn-primary">Settings &nbsp;<i class="fas fa-user-cog"></i></a>
+                        <div class="row">
+                            <div class="col">
+                                <a href="#" class="btn btn-primary @if($theme->active) disabled @endif"><i class="fas fa-check-double"></i> &nbsp;Make Active</a>
+                            </div>
+                            <div class="col">
+                                <a href="#" class="btn btn-primary">Settings &nbsp;<i class="fas fa-user-cog"></i></a>
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>

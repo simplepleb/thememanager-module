@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'name' => 'ThemeManager'
+    'name' => 'Thememanager'
 ];

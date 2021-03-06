@@ -20,7 +20,7 @@
  *
  */
 
-namespace Modules\ThemeManager\Http\Middleware;
+namespace Modules\Thememanager\Http\Middleware;
 
 use Closure;
 
