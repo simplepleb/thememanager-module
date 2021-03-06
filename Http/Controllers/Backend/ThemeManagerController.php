@@ -37,6 +37,27 @@ class ThemeManagerController extends Controller
 {
 
 
+    /**
+     * @var string
+     */
+    private $module_title;
+    /**
+     * @var string
+     */
+    private $module_name;
+    /**
+     * @var string
+     */
+    private $module_path;
+    /**
+     * @var string
+     */
+    private $module_icon;
+    /**
+     * @var string
+     */
+    private $module_model;
+
     public function __construct()
     {
         // Page Title
@@ -258,6 +279,11 @@ class ThemeManagerController extends Controller
         $module_name_singular = Str::singular($module_name);
 
         $module_action = 'Settings';
+
+        /*$is = module_path('Thememanager', 'Resources/lang');
+        dd( $is );*/
+        $lan = trans('thememanager::custom_css');
+        dd( $lan );
 
         $$module_name_singular = SiteTheme::where('slug', $name)->first();
         //dd( $settings );
