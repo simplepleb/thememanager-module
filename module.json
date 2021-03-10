@@ -2,7 +2,7 @@
     "name": "Thememanager",
     "alias": "thememanager",
     "author": "SimplePleb",
-    "description": "",
+    "description": "Used to manage site themes for front and back end Laravel",
     "keywords": [],
     "priority": 0,
     "providers": [
