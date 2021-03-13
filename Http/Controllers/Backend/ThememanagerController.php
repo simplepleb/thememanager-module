@@ -280,11 +280,6 @@ class ThememanagerController extends Controller
 
         $module_action = 'Settings';
 
-        /*$is = module_path('Thememanager', 'Resources/lang');
-        dd( $is );*/
-        $lan = trans('thememanager::custom_css');
-        dd( $lan );
-
         $$module_name_singular = SiteTheme::where('slug', $name)->first();
         //dd( $settings );
 

@@ -3,7 +3,7 @@
         <div class="form-group">
             <?php
             $field_name = 'name';
-            $field_lable = __("thememanager::$field_name");
+            $field_lable = __("thememanager::themes.$field_name");
             $field_placeholder = $field_lable;
             $required = "required";
             $disabled = "disabled";
@@ -17,13 +17,13 @@
         <div class="form-group">
             <?php
             $field_name = 'slug';
-            $field_lable = __("thememanager::$field_name");
+            $field_lable = __("thememanager::themes.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             $disabled = "disabled";
             ?>
             {{ html()->label($field_lable, $field_name) }} {!! fielf_required($required) !!}
-            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required"]) }}
+            {{ html()->text($field_name)->placeholder($field_placeholder)->class('form-control')->attributes(["$required","$disabled"]) }}
         </div>
     </div>
 
@@ -34,7 +34,7 @@
         <div class="form-group">
             <?php
             $field_name = 'custom_css';
-            $field_lable = __("thememanager::$field_name");
+            $field_lable = __("thememanager::themes.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
@@ -48,7 +48,7 @@
         <div class="form-group">
             <?php
             $field_name = 'custom_script';
-            $field_lable = __("thememanager::$field_name");
+            $field_lable = __("thememanager::themes.$field_name");
             $field_placeholder = $field_lable;
             $required = "";
             ?>
@@ -62,7 +62,7 @@
         <div class="form-group">
             <?php
             $field_name = 'featured_image';
-            $field_lable = __("thememanager::$field_name");
+            $field_lable = __("thememanager::themes.$field_name");
             $field_placeholder = $field_lable;
             $required = "required";
             ?>

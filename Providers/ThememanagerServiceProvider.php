@@ -121,7 +121,7 @@ class ThememanagerServiceProvider extends ServiceProvider
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, 'thememanager');
         } else {
-            $this->loadTranslationsFrom(module_path('Thememanager', 'Resources/lang'), 'thememanager');
+            $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
         }
     }
 
