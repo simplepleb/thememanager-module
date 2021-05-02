@@ -8,6 +8,7 @@ return [
     'custom_css' => 'Custom CSS',
     'custom_script' => 'Custom Script',
     'content' => 'Content',
-    'status' => 'Status'
+    'status' => 'Status',
+    'featured_image' => 'Featured Image'
 
 ];

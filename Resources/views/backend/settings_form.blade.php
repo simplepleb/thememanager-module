@@ -64,7 +64,7 @@
             $field_name = 'featured_image';
             $field_lable = __("thememanager::themes.$field_name");
             $field_placeholder = $field_lable;
-            $required = "required";
+            $required = "";
             ?>
             {!! Form::label("$field_name", "$field_lable") !!} {!! fielf_required($required) !!}
             <div class="input-group mb-3">
@@ -76,6 +76,9 @@
         </div>
     </div>
 </div>
+@if($custom_fields)
+    @include ("backend.custom.fields", $custom_fields)
+@endif
 {{--<div class="row">
     <div class="col-4">
         <div class="form-group">
@@ -339,18 +342,14 @@ $(function() {
 });
 </script>
 
-<script type="text/javascript" src="{{ asset('vendor/ckeditor/ckeditor.js') }}"></script>
 <script type="text/javascript" src="{{ asset('vendor/file-manager/js/file-manager.js') }}"></script>
 
 <script type="text/javascript">
-
-CKEDITOR.replace('content', {filebrowserImageBrowseUrl: '/file-manager/ckeditor', language:'{{App::getLocale()}}', defaultLanguage: 'en'});
 
 document.addEventListener("DOMContentLoaded", function() {
 
   document.getElementById('button-image').addEventListener('click', (event) => {
     event.preventDefault();
-
     window.open('/file-manager/fm-button', 'fm', 'width=800,height=600');
   });
 });

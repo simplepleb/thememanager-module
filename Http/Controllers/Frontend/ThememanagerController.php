@@ -26,6 +26,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
+use Modules\Thememanager\Entities\SiteTheme;
 use Theme;
 
 class ThememanagerController extends Controller
@@ -130,5 +131,14 @@ class ThememanagerController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getLogin(){
+
+        $s_theme = SiteTheme::where('active', 1)->first();
+        $theme = Theme::uses( $s_theme->slug )->layout('auth');
+        //$theme->setTitle( config('app.name')  );
+        //dd( $theme );
+        return $theme->view('auth.login');
     }
 }

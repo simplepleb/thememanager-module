@@ -22,6 +22,8 @@
 
 namespace Modules\Thememanager\Http\Controllers\Backend;
 
+use App\Models\CustomField;
+use Cassandra\Custom;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
@@ -139,14 +141,60 @@ class ThememanagerController extends Controller
         return view('thememanager::show');
     }
 
+    public static function import_fields($slug){
+
+        $custom_fields = CustomField::where('module', 'thememanager-'.$slug)->get();
+        if( count($custom_fields) > 0 )
+            return; // already imported
+
+        $fields_file = public_path('themes/'.$slug.'/custom_fields.json');
+        // dd( $fields_file );
+        if( file_exists($fields_file)) {
+            $fields_json = json_decode( file_get_contents($fields_file) );
+            // dd( $fields_json );
+            foreach( $fields_json->fields as $row ){
+                // dd( $row->field_value, 'therer' );
+                $field = new CustomField();
+                $field->field_name = $row->field_name;
+                $field->module = 'thememanager-'.$slug;
+                $field->field_type = $row->field_type;
+                $field->field_options = $row->field_options;
+                $field->field_help = $row->field_help;
+                $field->field_value = $row->field_value;
+                $field->save();
+            }
+
+            // dd( $fields_json );
+        }
+
+
+    }
+
     /**
      * Show the form for editing the specified resource.
-     * @param int $id
+     * @param $name
      * @return Renderable
      */
-    public function edit($id)
-    {
-        return view('thememanager::edit');
+    public function edit($name){
+
+        $module_title = $this->module_title;
+        $module_name = $this->module_name;
+        $module_path = $this->module_path;
+        $module_icon = $this->module_icon;
+        $module_model = $this->module_model;
+        $module_name_singular = Str::singular($module_name);
+
+        $module_action = 'Settings';
+
+        $$module_name_singular = SiteTheme::where('slug', $name)->first();
+        self::import_fields($name);
+        $custom_fields = array();
+        $custom_fields = CustomField::where('module','thememanager-'.$name)->get();
+
+        return view(
+            "thememanager::backend.settings",
+            compact( 'module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular",'custom_fields')
+        );
     }
 
     /**
@@ -155,9 +203,37 @@ class ThememanagerController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $id){
+
+        $module_name = $this->module_name;
+
+        $theme = SiteTheme::where('id',$id)->first();
+
+        $theme->custom_css      = $request->get('custom_css');
+        $theme->custom_script   = $request->get('custom_script');
+        $theme->save();
+
+        if($request->get('has_custom') == 1){ // save custom fields
+
+            $db_fields = CustomField::where('module','thememanager-'.$theme->slug)->get();
+            foreach($db_fields as $field){
+                if( $request->get($field->field_name) ) {
+                    $c_field = CustomField::where('field_name',$field->field_name)->first();
+                    if( $c_field ) {
+                        $c_field->field_value = $request->get($field->field_name);
+                        $c_field->save();
+                    }
+                }
+            }
+
+        }
+
+        Flash::success("<i class='fas fa-check'></i> ".$theme->name." Theme Updated")->important();
+
+        Log::info(" | '".$theme->name.'(ID:'.$theme->id.") ' Updated by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+
+        return redirect("admin/$module_name");
+
     }
 
     /**
@@ -269,27 +345,34 @@ class ThememanagerController extends Controller
         return redirect("admin/$module_name");
     }
 
-    public function settings($name){
+    public static function themeFields($slug, $key)
+    {
+        $base = [
+            'home_title', 'site_footer', 'bottom_copyright',
+        ];
 
-        $module_title = $this->module_title;
-        $module_name = $this->module_name;
-        $module_path = $this->module_path;
-        $module_icon = $this->module_icon;
-        $module_model = $this->module_model;
-        $module_name_singular = Str::singular($module_name);
+        $b = collect($base)->map(function($item) use ($key) {
+            if(is_null($key)) {
+                return $item;
+            }
+            return $key.'.'.$item;
+        });
 
-        $module_action = 'Settings';
+        $cf = custom_fields_names('theme-'.$slug);
+        $c = collect($cf)->map(function($item) use ($key) {
+            if(is_null($key)) {
+                return $item;
+            }
+            return $key.'.'.$item;
+        });
 
-        $$module_name_singular = SiteTheme::where('slug', $name)->first();
-        //dd( $settings );
+        $f = $b->merge($c);
+        return $f->toArray();
 
-        Log::info(label_case($module_title.' '.$module_action).' | User:'.Auth::user()->name.'(ID:'.Auth::user()->id.')');
-
-        return view(
-            "thememanager::backend.settings",
-            compact( 'module_title', 'module_name', 'module_icon', 'module_name_singular', 'module_action', "$module_name_singular")
-        );
     }
+
+
+
 
 
 }

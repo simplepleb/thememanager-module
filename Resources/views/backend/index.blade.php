@@ -52,7 +52,7 @@
                                 <a href="#" class="btn btn-primary @if($theme->active) disabled @endif"><i class="fas fa-check-double"></i> &nbsp;Make Active</a>
                             </div>
                             <div class="col">
-                                <a href="#" class="btn btn-primary">Settings &nbsp;<i class="fas fa-user-cog"></i></a>
+                                <a href="/admin/thememanager/{{ $settings->slug }}/edit" class="btn btn-primary">Settings &nbsp;<i class="fas fa-user-cog"></i></a>
                             </div>
                         </div>
 
