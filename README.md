@@ -32,4 +32,11 @@ Dashboard
 
 ![Screen Shot 2021-03-03 at 8 59 17 PM](https://user-images.githubusercontent.com/79759974/109899123-5aafa880-7c63-11eb-8da9-67bc5d538e70.png)
 
+Settings
+
+Each theme can have its own settings - add settings and default values in the ```public/themes/{name}/custom_fields.json``` file - which will build the settings form and allow the end-user to modify variables and values used throughout the theme. Use these values inside your theme blade files and elsewhere.
+
+![Screen Shot 2021-05-02 at 2 10 02 PM](https://user-images.githubusercontent.com/79759974/116823077-7266b880-ab50-11eb-9cea-1fab1a3fc34d.png)
+
+
 
