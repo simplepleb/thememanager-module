@@ -36,7 +36,6 @@ Settings
 
 Each theme can have its own settings - add settings and default values in the ```public/themes/{name}/custom_fields.json``` file - which will build the settings form and allow the end-user to modify variables and values used throughout the theme. Use these values inside your theme blade files and elsewhere.
 
-![Screen Shot 2021-05-02 at 2 10 02 PM](https://user-images.githubusercontent.com/79759974/116823077-7266b880-ab50-11eb-9cea-1fab1a3fc34d.png)
-
-
+<img src="https://user-images.githubusercontent.com/79759974/116823077-7266b880-ab50-11eb-9cea-1fab1a3fc34d.png" alt="Settings Form"
+	title="Settings Form" style="width: 50%; height:auto;" />
 
