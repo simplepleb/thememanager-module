@@ -2,6 +2,8 @@
 
 Theme Management (Front End) For Laravel CMS.
 
+[![Foo](https://xscode.com/assets/promo-banner.svg)](https://xscode.com/simplepleb/thememanager-module)
+
 ## Dashboard
 
 Using the theme manager dashboard you can click to change the theme of the site. Themes are displayed with a screenshot, description and related information. By clicking 'Activate' your site (front-end) theme will be updated to use the selected theme.
