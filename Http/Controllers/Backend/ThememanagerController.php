@@ -32,6 +32,8 @@ use Auth;
 use Carbon\Carbon;
 use Flash;
 use Log;
+use Modules\Menumaker\Entities\MenuMaker;
+use Modules\Menumaker\Entities\MenuMakerItem;
 use Modules\Thememanager\Entities\SiteTheme;
 use Theme;
 
@@ -130,6 +132,86 @@ class ThememanagerController extends Controller
     {
         //
     }
+
+    public function activate_theme(Request $request)
+    {
+        $id = $request->get('theme_id');
+
+        $all = SiteTheme::where('id', '<>', $id)->update(['active' => 0]);
+        $theme = SiteTheme::where('id',$id)->first();
+        $theme->active = 1;
+        $theme->save();
+
+        if ( \Module::has('Menumaker')) {
+            $file = public_path('themes/'.$theme->slug.'/custom_fields.json');
+            if( file_exists($file )) {
+                $json_menu = json_decode(file_get_contents($file));
+                if( isset($json_menu->menus) ){
+                    foreach($json_menu->menus as $row){
+// dd( $row->links );
+                        $mnu = MenuMaker::where('machine_name',$row->menu_name )->first();
+                        if( $mnu ) continue;
+                        $mnu = new MenuMaker();
+                        $mnu->machine_name = $row->menu_name;
+                        $mnu->menu_class = $row->menu_class;
+                        $mnu->display_name = label_case($row->menu_name);
+                        $mnu->lang = 'en';
+                        $mnu->save();
+
+                        foreach( $row->links as $link){
+                            $itm = new MenuMakerItem();
+                            $itm->menu_id = $mnu->id;
+                            $itm->unique_name = slug_format($link->title.rand(1,900)) ;
+                            $itm->parameters = '{}';
+                            $itm->label = $link->title;
+                            $itm->menu_text = $link->title;
+                            $itm->link = $link->url;
+                            $itm->class = $link->link_class;
+                            $itm->save();
+                        }
+
+
+                        \Menu::make($row->menu_name, function ($menu) use ($row) {
+                            foreach($row->links as $item  ){
+                                // dd( $item );
+                                $menu->add(__($item->title), [
+                                    'url' => $item->url,
+                                    'class' => $item->li_class,
+                                ])->data([
+                                    'order' => $item->order,
+                                    'activematches' => $item->url,
+                                ])->link->attr([
+                                    'class' => $item->link_class,
+                                ]);
+
+
+
+                            }
+
+
+                        });
+                        // $menu_name = $row->menu_name;
+
+                        // dd( $row );
+                    }
+
+                }
+
+            }
+        }
+
+
+        $success = true;
+        $message = __('Theme Activated');
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
+
+    }
+
+
 
     /**
      * Show the specified resource.

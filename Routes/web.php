@@ -51,6 +51,7 @@ Route::group(['namespace' => '\Modules\Thememanager\Http\Controllers\Backend', '
     Route::get("$module_name/trashed", ['as' => "$module_name.trashed", 'uses' => "$controller_name@trashed"]);
     Route::patch("$module_name/trashed/{id}", ['as' => "$module_name.restore", 'uses' => "$controller_name@restore"]);
     Route::get("$module_name/disable", ['as' => "$module_name.disable", 'uses' => "$controller_name@disable"]);
+    Route::post("$module_name/activate_theme", ['as' => "$module_name.activate_theme", 'uses' => "$controller_name@activate_theme"]);
     // Route::post("$module_name/preview", ['as' => "$module_name.preview", 'uses' => "$controller_name@preview"]);
     Route::get("$module_name/preview/{vname}/{name?}", '\Modules\Thememanager\Http\Controllers\Backend\ThememanagerController@preview');
     Route::get("$module_name/refresh", ['as' => "$module_name.refresh", 'uses' => "$controller_name@refresh"]);

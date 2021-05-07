@@ -42,20 +42,19 @@
                         $img_src = file_exists($img_file) ? '/themes/'.$settings->slug.'/screenshot.jpeg' : 'https://via.placeholder.com/1170x780';
                 @endphp
             <div class="col-4">
-                <div class="card">
+                <div class="card @if($theme->active) border-success @endif">
                     <img class="card-img-top" src="{{ $img_src }}" alt="Theme Name">
                     <div class="card-body">
                         <h5 class="card-title">{{ ucwords($settings->name) }}&nbsp;<small>by: @if($settings->web)<a href="{{ $settings->web }}" target="_blank">@endif {{ $settings->author }}@if($settings->web)</a> @endif</small></h5>
                         <p class="card-text">{{ $settings->description }}</p>
-                        <div class="row">
-                            <div class="col">
-                                <a href="#" class="btn btn-primary @if($theme->active) disabled @endif"><i class="fas fa-check-double"></i> &nbsp;Make Active</a>
-                            </div>
-                            <div class="col">
-                                <a href="/admin/thememanager/{{ $settings->slug }}/edit" class="btn btn-primary">Settings &nbsp;<i class="fas fa-user-cog"></i></a>
+
+                        <div class="row justify-content-center align-content-center bg-primary">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" data-id="{{ $theme->id }}" class="btn @if($theme->active)btn-success @else btn-primary @endif btn-sm @if($theme->active) disabled @endif activate_theme"><i class="fas fa-check-double"></i></button>
+                                <a href="/admin/thememanager/{{ $settings->slug }}/edit"><button type="button" class="btn btn-primary btn-sm" title="Theme Settings"><i class="fas fa-cogs"></i></button></a>
+                                <a @if( theme_has_menus($theme->id) == false) disabled="disabled" @endif href="/admin/menumaker"><button type="button" class="btn btn-primary btn-sm" title="Menus" @if( theme_has_menus($theme->id) == false) disabled @endif><i class="fas fa-sitemap"></i></button></a>
                             </div>
                         </div>
-
 
                     </div>
                 </div>
@@ -81,3 +80,58 @@
     </div>
 </div>
 @stop
+
+@push ('after-scripts')
+    <!-- DataTables Core and Extensions -->
+    <script type="text/javascript" src="{{ asset('vendor/datatable/datatables.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $(document).ready(function(){
+            $(".activate_theme").on("click", function(){
+                var theme_id = $(this).data("id"); //$(this).attr("data-id");
+                var url = '{{ route('backend.thememanager.activate_theme') }}'
+                swal({
+                    title: "{{ __('Activate Theme') }}?",
+                    text: "{{ __('Are you sure you want to change themes?') }}",
+                    type: "warning",
+                    showCancelButton: !0,
+                    confirmButtonText: "{{ __('Yes, activate it') }}!",
+                    cancelButtonText: "{{ __('No, cancel') }}!",
+                    reverseButtons: !0
+                }).then(function (e) {
+                    if (e.value === true) {
+                        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+                        $.ajax({
+                            type: 'POST',
+                            url: url,
+                            theme_id: theme_id,
+                            data: {_token: CSRF_TOKEN, theme_id: theme_id},
+                            dataType: 'JSON',
+                            success: function (results) {
+                                if (results.success === true) {
+                                    swal("{{ __('Done') }}!", results.message, "success");
+                                    location.reload();
+                                } else {
+                                    swal("{{ __('Error') }}!", results.message, "error");
+                                }
+                            }
+                        });
+                    } else {
+                        e.dismiss;
+                    }
+                }, function (dismiss) {
+                    return false;
+                })
+            });
+        });
+
+
+
+    </script>
+
+@endpush

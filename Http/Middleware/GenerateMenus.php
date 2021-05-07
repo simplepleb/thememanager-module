@@ -23,6 +23,8 @@
 namespace Modules\Thememanager\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\App;
+use Modules\Thememanager\Entities\SiteTheme;
 
 class GenerateMenus
 {
@@ -52,6 +54,11 @@ class GenerateMenus
                     'class' => 'c-sidebar-nav-link',
                 ]);
         })->sortBy('order');
+
+
+
+
+        // $my_fields = 'HERE IT IS';
 
         return $next($request);
     }

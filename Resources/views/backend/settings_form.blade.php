@@ -76,6 +76,7 @@
         </div>
     </div>
 </div>
+
 @if($custom_fields)
     @include ("backend.custom.fields", $custom_fields)
 @endif
