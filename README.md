@@ -4,6 +4,8 @@ Theme Management (Front End) For Laravel CMS.
 
 [![Foo](https://xscode.com/assets/promo-banner.svg)](https://xscode.com/simplepleb/thememanager-module)
 
+[![Latest Stable Version](https://poser.pugx.org/simplepleb/thememanager-module/v)](//packagist.org/packages/simplepleb/thememanager-module) [![Total Downloads](https://poser.pugx.org/simplepleb/thememanager-module/downloads)](//packagist.org/packages/simplepleb/thememanager-module) [![Latest Unstable Version](https://poser.pugx.org/simplepleb/thememanager-module/v/unstable)](//packagist.org/packages/simplepleb/thememanager-module) [![License](https://poser.pugx.org/simplepleb/thememanager-module/license)](//packagist.org/packages/simplepleb/thememanager-module)
+
 ## Dashboard
 
 Using the theme manager dashboard you can click to change the theme of the site. Themes are displayed with a screenshot, description and related information. By clicking 'Activate' your site (front-end) theme will be updated to use the selected theme.
