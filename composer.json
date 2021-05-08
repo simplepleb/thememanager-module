@@ -3,7 +3,7 @@
     "description": "Used to manage site themes for front and back end Laravel",
     "type": "laravel-module",
     "keywords":[ "laravel","laravel-cms","laravel-themes","laravel-theme-maker","laravel-dashboard","laravel-theme"],
-    "version": "v1.0",
+    "version": "v1.0.1",
     "license": ["GPL-3.0-or-later"],
     "authors": [
         {
@@ -12,9 +12,20 @@
         }
     ],
     "require": {
-        "nwidart/laravel-modules": "^8.0",
         "php": "^7.3.0",
+        "nwidart/laravel-modules": "^8.0",
         "simplepleb/themes": "dev-main"
+    },
+    "suggest": {
+        "spatie/laravel-permission": "To be able to set access by role and permissions",
+        "joshbrw/laravel-module-installer": "Makes installing and updating modules simple",
+        "simplepleb/modulemanager-module": "Manage modules easily",
+        "simplepleb/menumaker-module": "Build dynamic menus for your front and back end",
+        "simplepleb/article-module": "Complete article post and category module",
+        "simplepleb/comment-module": "Add comments to site content",
+        "simplepleb/content-module": "Manage site content and front-facing pages",
+        "simplepleb/tag-module": "Add tags and taggables to content",
+        "simplepleb/themes": "A library of starter themes for your laravel project"
     },
     "extra": {
         "laravel": {
