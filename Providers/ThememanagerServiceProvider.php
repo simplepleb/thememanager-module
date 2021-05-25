@@ -25,6 +25,7 @@ namespace Modules\Thememanager\Providers;
 use Illuminate\Support\ServiceProvider;
 use Modules\Thememanager\Entities\SiteTheme;
 use Symfony\Component\Finder\Finder;
+use Illuminate\Support\Facades\Schema;
 
 use Illuminate\Database\Eloquent\Factory;
 
@@ -65,19 +66,22 @@ class ThememanagerServiceProvider extends ServiceProvider
             $path_to . '/Resources/views/components' => base_path('resources/views/components'),
         ], 'theme-manager');
 
-        $theme = SiteTheme::where('active',1)->first();
-        if( $theme ){
+        if ( Schema::hasTable('site_themes') ) {
+            $theme = SiteTheme::where('active',1)->first();
+            if( $theme ){
 
-            $fields = \App\Models\CustomField::where('module', 'thememanager-'.$theme->slug)->get();
-            foreach ($fields as $field) {
-                // $f[$field->field_name] = $field->field_value;
-                view()->share($field->field_name, $field->field_value);
-                /*view()->composer('*', function ($view) use ($field) {
-                    $view->with($field->field_name, $field->field_value);
-                });*/
+                $fields = \App\Models\CustomField::where('module', 'thememanager-'.$theme->slug)->get();
+                foreach ($fields as $field) {
+                    // $f[$field->field_name] = $field->field_value;
+                    view()->share($field->field_name, $field->field_value);
+                    /*view()->composer('*', function ($view) use ($field) {
+                        $view->with($field->field_name, $field->field_value);
+                    });*/
+                }
+
             }
-
         }
+
 
     }
 
@@ -138,18 +142,20 @@ class ThememanagerServiceProvider extends ServiceProvider
         } else {
             $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
         }*/
-        $active = SiteTheme::where('active', 1)->first();
 
-        // $arr = array();
-        if($active) {
-            $t_langPath = public_path('themes/'.$active->slug.'/lang');
-            // dd( $t_langPath);
-            if (is_dir($t_langPath)){
-                // $arr[] = $t_langPath;
-                $this->loadTranslationsFrom($t_langPath, $active->slug);
+        if ( Schema::hasTable('site_themes') ) {
+            $active = SiteTheme::where('active', 1)->first();
+            if($active) {
+                $t_langPath = public_path('themes/'.$active->slug.'/lang');
+                // dd( $t_langPath);
+                if (is_dir($t_langPath)){
+                    // $arr[] = $t_langPath;
+                    $this->loadTranslationsFrom($t_langPath, $active->slug);
+                }
             }
         }
-        // dd( $arr );
+
+
 
     }
 
