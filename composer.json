@@ -14,7 +14,7 @@
     "require": {
         "php": "^7.3.0",
         "nwidart/laravel-modules": "^8.0",
-        "simplepleb/themes": "dev-main"
+        "simplepleb/themes": "^1.*"
     },
     "suggest": {
         "spatie/laravel-permission": "To be able to set access by role and permissions",

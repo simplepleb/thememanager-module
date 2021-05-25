@@ -137,8 +137,8 @@ class ThememanagerController extends Controller
 
         $s_theme = SiteTheme::where('active', 1)->first();
         $theme = Theme::uses( $s_theme->slug )->layout('auth');
-        //$theme->setTitle( config('app.name')  );
-        //dd( $theme );
-        return $theme->view('auth.login');
+        $theme->setTitle( config('app.name').' | Login'  );
+
+        return $theme->view('login');
     }
 }
