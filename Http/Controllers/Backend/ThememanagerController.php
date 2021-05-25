@@ -373,6 +373,8 @@ class ThememanagerController extends Controller
 
         $dir = public_path('themes/').'*';
         $path = public_path().'/themes/';
+        $theme_setings = array();
+        $page_styles = array();
 
         // Open a known directory, and proceed to read its contents
         foreach(glob($dir) as $file)
@@ -381,20 +383,24 @@ class ThememanagerController extends Controller
             if( filetype($file) == 'dir'){
                 $name = str_replace($path,'',$file);
                 // Theme Settings
-                $settings = file_get_contents($path.$name.'/theme.json');
-                $settings = preg_replace( "/\r|\n/", "", $settings );
-                $settings = '['.$settings.']';
-                $vals = json_decode($settings);
+                if( file_exists($path.$name.'/theme.json')) {
+                    $settings = file_get_contents($path.$name.'/theme.json');
+                    $settings = preg_replace( "/\r|\n/", "", $settings );
+                    $settings = '['.$settings.']';
+                    $vals = json_decode($settings);
 
-                $theme_setings = $vals[0];
-                unset($vals);
+                    $theme_setings = $vals[0];
+                    unset($vals);
+                }
 
-                // Page Styles
-                $pages = file_get_contents($path.$name.'/pages.json');
-                $pages = preg_replace( "/\r|\n/", "", $pages );
-                $pages = '['.$pages.']';
-                $vals = json_decode($pages);
-                $page_styles = $vals[0];
+                if( file_exists($path.$name.'/pages.json')) {
+                    // Page Styles
+                    $pages = file_get_contents($path.$name.'/pages.json');
+                    $pages = preg_replace( "/\r|\n/", "", $pages );
+                    $pages = '['.$pages.']';
+                    $vals = json_decode($pages);
+                    $page_styles = $vals[0];
+                }
 
                 // dd( $vals->slug );
                 $theme = SiteTheme::where('slug', $theme_setings->slug)->first();
