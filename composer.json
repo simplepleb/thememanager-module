@@ -33,7 +33,7 @@
               "Modules\\Thememanager\\Providers\\ThememanagerServiceProvider"
             ],
             "aliases": {
-
+                "Theme": "SimplePleb\\Theme\\Facades\\Theme"
             }
         }
     },
