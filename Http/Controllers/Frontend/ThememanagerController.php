@@ -139,6 +139,6 @@ class ThememanagerController extends Controller
         $theme = Theme::uses( $s_theme->slug )->layout('auth');
         $theme->setTitle( config('app.name').' | Login'  );
 
-        return $theme->view('login');
+        return $theme->view('auth.login');
     }
 }

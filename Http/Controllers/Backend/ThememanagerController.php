@@ -378,6 +378,8 @@ class ThememanagerController extends Controller
         // Open a known directory, and proceed to read its contents
         foreach(glob($dir) as $file)
         {
+            $theme_setings = array();
+            $page_styles = array();
             // dd(filetype($file) );
             if( filetype($file) == 'dir'){
                 $name = str_replace($path,'',$file);
@@ -388,7 +390,13 @@ class ThememanagerController extends Controller
                     $settings = '['.$settings.']';
                     $vals = json_decode($settings);
 
-                    $theme_setings = $vals[0];
+                    if( is_array($vals)) {
+                        $theme_setings = $vals[0];
+                    }
+                    else
+                        $theme_setings = null;
+
+                    // dd( $theme_setings, 'WHERE' );
                     unset($vals);
                 }
 
@@ -398,13 +406,17 @@ class ThememanagerController extends Controller
                     $pages = preg_replace( "/\r|\n/", "", $pages );
                     $pages = '['.$pages.']';
                     $vals = json_decode($pages);
-                    $page_styles = $vals[0];
+                    if( is_array($vals)) {
+                        $page_styles = $vals[0];
+                    }
+                    else
+                        $page_styles = null;
+
                 }
 
-                // dd( $vals->slug );
-                $theme = SiteTheme::where('slug', $theme_setings->slug)->first();
-                if( !$theme ) {
-                    $theme  = SiteTheme::updateOrCreate(
+                if( $theme_setings || $page_styles ){
+
+                    SiteTheme::updateOrCreate(
                         [
                             'slug' => $theme_setings->slug
                         ],
@@ -415,19 +427,17 @@ class ThememanagerController extends Controller
                             'active' => 0
                         ]
                     );
+
                 }
 
-                // dd( $theme );
-            }
 
-            // dd( $name );
-            //echo "filename: $file : filetype: " . filetype($file) . "<br />";
+            }
 
         }
 
         Flash::success("<i class='fas fa-check'></i> Themes Refreshed")->important();
 
-        // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
+        Log::info("Themes Refreshed by User:".Auth::user()->name." (ID:".Auth::user()->id.")");
 
         return redirect("admin/$module_name");
     }
