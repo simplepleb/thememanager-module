@@ -375,6 +375,11 @@ class ThememanagerController extends Controller
         $theme_setings = array();
         $page_styles = array();
 
+        $current = 0;
+        $active = SiteTheme::where('active', 1)->first();
+        if( $active->id > 0 )
+            $current = $active->id;
+
         // Open a known directory, and proceed to read its contents
         foreach(glob($dir) as $file)
         {
@@ -433,6 +438,10 @@ class ThememanagerController extends Controller
 
             }
 
+        }
+
+        if( $current > 0 ) {
+            SiteTheme::where('id', $current)->update(['active' => 1]);
         }
 
         Flash::success("<i class='fas fa-check'></i> Themes Refreshed")->important();

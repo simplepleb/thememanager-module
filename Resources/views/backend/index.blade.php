@@ -23,8 +23,8 @@
             <!--/.col-->
             <div class="col-4">
                 <div class="float-right">
-                    <x-buttons.create route='{{ route("backend.$module_name.create") }}' title="{{__('Create')}} {{ ucwords(Str::singular($module_name)) }}"/>
-                    <x-buttons.disable route='{{ route("backend.$module_name.disable") }}' title="{{__('Disable')}}"/>
+                    {{--<x-buttons.create route='{{ route("backend.$module_name.create") }}' title="{{__('Create')}} {{ ucwords(Str::singular($module_name)) }}"/>
+                    <x-buttons.disable route='{{ route("backend.$module_name.disable") }}' title="{{__('Disable')}}"/>--}}
                     <x-buttons.refresh route='{{ route("backend.$module_name.refresh") }}' title="{{__('Refresh List')}}"/>
                 </div>
             </div>
