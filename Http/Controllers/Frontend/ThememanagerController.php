@@ -135,6 +135,34 @@ class ThememanagerController extends Controller
 
     public function getLogin(){
 
+        $domain = request()->getHttpHost();
+        $domain = str_replace(
+            'www.','',$domain
+        );
+
+        switch ($domain) {
+            case "xhubliquidity.com":
+                $env = 'PROD';
+                break;
+            case "xhub-liquidity.com":
+                $env = 'UAT';
+                break;
+            case "lmex.io":
+                $env = 'RETAIL';
+                break;
+            default:
+                $env = null;
+        }
+        request()->session()->put('activeDomain', $domain);
+
+        $s_theme = SiteTheme::where('name', $domain)->first();
+        if ($s_theme) {
+            $theme = Theme::uses( $s_theme->slug )->layout('auth');
+            $theme->setTitle( config('app.name').' | Login'  );
+
+            return $theme->view('auth.login');
+        }
+
         $s_theme = SiteTheme::where('active', 1)->first();
         $theme = Theme::uses( $s_theme->slug )->layout('auth');
         $theme->setTitle( config('app.name').' | Login'  );
