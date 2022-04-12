@@ -140,19 +140,6 @@ class ThememanagerController extends Controller
             'www.','',$domain
         );
 
-        switch ($domain) {
-            case "xhubliquidity.com":
-                $env = 'PROD';
-                break;
-            case "xhub-liquidity.com":
-                $env = 'UAT';
-                break;
-            case "lmex.io":
-                $env = 'RETAIL';
-                break;
-            default:
-                $env = null;
-        }
         request()->session()->put('activeDomain', $domain);
 
         $s_theme = SiteTheme::where('name', $domain)->first();
@@ -164,6 +151,7 @@ class ThememanagerController extends Controller
         }
 
         $s_theme = SiteTheme::where('active', 1)->first();
+
         $theme = Theme::uses( $s_theme->slug )->layout('auth');
         $theme->setTitle( config('app.name').' | Login'  );
 

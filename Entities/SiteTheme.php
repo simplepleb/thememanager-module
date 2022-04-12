@@ -22,7 +22,9 @@
 
 namespace Modules\Thememanager\Entities;
 
-use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Model;
+
+// use App\Models\BaseModel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -32,7 +34,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 
 
-class SiteTheme extends BaseModel
+class SiteTheme extends Model
 {
     use HasFactory;
     use SoftDeletes;
