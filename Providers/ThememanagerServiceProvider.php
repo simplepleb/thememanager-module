@@ -152,6 +152,15 @@ class ThememanagerServiceProvider extends ServiceProvider
                     // $arr[] = $t_langPath;
                     $this->loadTranslationsFrom($t_langPath, $active->slug);
                 }
+                else {
+                    $langPath = resource_path('lang/modules/thememanager');
+
+                    if (is_dir($langPath)) {
+                        $this->loadTranslationsFrom($langPath, 'thememanager');
+                    } else {
+                        $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
+                    }
+                }
             }
         }
 

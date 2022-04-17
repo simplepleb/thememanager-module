@@ -35,6 +35,7 @@ use Modules\Menumaker\Entities\MenuMaker;
 use Modules\Menumaker\Entities\MenuMakerItem;
 use Modules\Thememanager\Entities\SiteTheme;
 use Theme;
+use Menu;
 
 class ThememanagerController extends Controller
 {
@@ -136,18 +137,19 @@ class ThememanagerController extends Controller
     {
         $id = $request->get('theme_id');
 
-        $all = SiteTheme::where('id', '<>', $id)->update(['active' => 0]);
+        SiteTheme::where('id', '<>', $id)->update(['active' => 0]);
         $theme = SiteTheme::where('id',$id)->first();
         $theme->active = 1;
         $theme->save();
 
         if ( \Module::has('Menumaker')) {
+
             $file = public_path('themes/'.$theme->slug.'/custom_fields.json');
             if( file_exists($file )) {
                 $json_menu = json_decode(file_get_contents($file));
                 if( isset($json_menu->menus) ){
                     foreach($json_menu->menus as $row){
-// dd( $row->links );
+
                         $mnu = MenuMaker::where('machine_name',$row->menu_name )->first();
                         if( $mnu ) continue;
                         $mnu = new MenuMaker();
@@ -309,11 +311,11 @@ class ThememanagerController extends Controller
 
         }
 
-        Flash::success("<i class='fas fa-check'></i> ".$theme->name." Theme Updated")->important();
+        // Flash::success("<i class='fas fa-check'></i> ".$theme->name." Theme Updated")->important();
 
         Log::info(" | '".$theme->name.'(ID:'.$theme->id.") ' Updated by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return redirect("admin/$module_name");
+        return redirect()->back()->with('success', __('Theme Settings Saved.'));
 
     }
 
@@ -331,7 +333,7 @@ class ThememanagerController extends Controller
     {
         SiteTheme::where('active',1)->update(['active'=>0]);
 
-        Flash::success("<i class='fas fa-check'></i> Themes Disabled")->important();
+        // Flash::success("<i class='fas fa-check'></i> Themes Disabled")->important();
 
         // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
@@ -377,7 +379,7 @@ class ThememanagerController extends Controller
 
         $current = 0;
         $active = SiteTheme::where('active', 1)->first();
-        if( $active->id > 0 )
+        if( $active && $active->id > 0 )
             $current = $active->id;
 
         // Open a known directory, and proceed to read its contents
@@ -444,11 +446,12 @@ class ThememanagerController extends Controller
             SiteTheme::where('id', $current)->update(['active' => 1]);
         }
 
-        Flash::success("<i class='fas fa-check'></i> Themes Refreshed")->important();
+        // Flash::success("<i class='fas fa-check'></i> Themes Refreshed")->important();
 
         Log::info("Themes Refreshed by User:".Auth::user()->name." (ID:".Auth::user()->id.")");
 
-        return redirect("admin/$module_name");
+        return redirect()->back()->with('success', "Theme Files Were Refreshed");
+
     }
 
     public static function themeFields($slug, $key)

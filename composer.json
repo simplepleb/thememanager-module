@@ -12,8 +12,8 @@
         }
     ],
     "require": {
-        "php": "^7.3.0",
-        "nwidart/laravel-modules": "^8.0",
+        "php": "^7.3|8.0",
+        "nwidart/laravel-modules": "^9.0",
         "simplepleb/themes": "^1.1"
     },
     "suggest": {
@@ -38,6 +38,9 @@
         }
     },
     "autoload": {
+        "files": [
+            "Modules/Thememanager/Http/helpers.php"
+        ],
         "psr-4": {
             "Modules\\Thememanager\\": ""
         }

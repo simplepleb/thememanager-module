@@ -11,39 +11,9 @@
 |
 */
 
-/*Route::prefix('thememanager')->group(function() {
-    // Route::get('/', '\Modules\Thememanager\Http\Controllers\Backend\ThememanagerController@index');
+// Route::group( [ 'namespace' => '\Modules\Thememanager\Http\Controllers\Backend','middleware' => [ 'auth',/*'permission:manage plans'*/ ], ], function (){
+Route::group(['namespace' => '\Modules\Thememanager\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'site-manager'], function () {
 
-    // Used for testing and preview new themes
-
-});*/
-
-/*Route::group(['namespace' => '\Modules\Thememanager\Http\Controllers\Frontend', 'as' => 'frontend.', 'middleware' => 'web', 'prefix' => ''], function () {
-    Route::get('/preview', '\Modules\Thememanager\Http\Controllers\Frontend\ThememanagerController@index');
-});
-*/
-
-/*
-*
-* Backend Routes
-*
-* --------------------------------------------------------------------
-*/
-Route::group(['namespace' => '\Modules\Thememanager\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'admin'], function () {
-    /*
-    * These routes need view-backend permission
-    * (good if you want to allow more than one group in the backend,
-    * then limit the backend features by different roles or permissions)
-    *
-    * Note: Administrator has all permissions so you do not have to specify the administrator role everywhere.
-    */
-
-    /*
-     *
-     *  Posts Routes
-     *
-     * ---------------------------------------------------------------------
-     */
     $module_name = 'thememanager';
     $controller_name = 'ThememanagerController';
     Route::get("$module_name/index_list", ['as' => "$module_name.index_list", 'uses' => "$controller_name@index_list"]);

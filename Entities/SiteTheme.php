@@ -42,9 +42,30 @@ class SiteTheme extends Model
 
     protected $table = 'site_themes';
 
+    protected $fillable = [
+      'slug',
+      'active',
+      'name',
+      'settings',
+      'page_styles',
+      'page_blocks',
+      'widgets',
+      'custom_css',
+      'custom_script',
+      'custom_script',
+      'created_by',
+      'updated_by',
+      'deleted_by',
+    ];
+
     protected static $logName = 'themes';
     protected static $logOnlyDirty = true;
     protected static $logAttributes = ['name'];
+
+    protected $casts = [
+        'settings',
+        'page_styles',
+    ];
 
 
 }
