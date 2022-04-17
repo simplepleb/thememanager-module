@@ -38,9 +38,6 @@
         }
     },
     "autoload": {
-        "files": [
-            "/Modules/Thememanager/Http/helpers.php"
-        ],
         "psr-4": {
             "Modules\\Thememanager\\": ""
         }
