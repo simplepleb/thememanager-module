@@ -12,7 +12,7 @@
 */
 
 // Route::group( [ 'namespace' => '\Modules\Thememanager\Http\Controllers\Backend','middleware' => [ 'auth',/*'permission:manage plans'*/ ], ], function (){
-Route::group(['namespace' => '\Modules\Thememanager\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'site-manager'], function () {
+Route::group(['namespace' => '\Modules\Thememanager\Http\Controllers\Backend', 'as' => 'backend.', 'middleware' => ['web', 'auth', 'can:view_backend'], 'prefix' => 'app'], function () {
 
     $module_name = 'thememanager';
     $controller_name = 'ThememanagerController';

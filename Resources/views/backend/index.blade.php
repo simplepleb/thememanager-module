@@ -50,7 +50,9 @@
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <button type="button" data-id="{{ $theme->id }}" class="btn @if($theme->active)btn-success @else btn-primary @endif btn-sm @if($theme->active) disabled @endif activate_theme"><i class="fas fa-check-double"></i></button>
                                         <a href="{{ route('backend.thememanager.edit', [ 'thememanager'=> $settings->slug ]) }}"><button type="button" class="btn btn-primary btn-sm" title="Theme Settings"><i class="fas fa-cogs"></i></button></a>
-                                        <a @if( theme_has_menus($theme->id) == false) disabled="disabled" @endif href="/admin/menumaker"><button type="button" class="btn btn-primary btn-sm" title="Menus" @if( theme_has_menus($theme->id) == false) disabled @endif><i class="fas fa-sitemap"></i></button></a>
+                                        @if(\Module::has('Menumaker'))
+                                            <a @if( theme_has_menus($theme->id) == false) disabled="disabled" @endif href="/admin/menumaker"><button type="button" class="btn btn-primary btn-sm" title="Menus" @if( theme_has_menus($theme->id) == false) disabled @endif><i class="fas fa-sitemap"></i></button></a>
+                                        @endif
                                     </div>
                                 </div>
 
