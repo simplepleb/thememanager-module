@@ -3,7 +3,7 @@
     "description": "Used to manage site themes for front and back end Laravel",
     "type": "laravel-module",
     "keywords":[ "laravel","laravel-cms","laravel-themes","laravel-theme-maker","laravel-dashboard","laravel-theme"],
-    "version": "v1.5",
+    "version": "v1.6",
     "license": ["GPL-3.0-or-later"],
     "authors": [
         {
