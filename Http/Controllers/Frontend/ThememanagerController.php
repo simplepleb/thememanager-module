@@ -143,12 +143,18 @@ class ThememanagerController extends Controller
         request()->session()->put('activeDomain', $domain);
 
         $s_theme = SiteTheme::where('name', $domain)->first();
-        if ($s_theme) {
+        if( !$s_theme ){
+            $s_theme = SiteTheme::where('active', 1)->first();
+        }
+
+        if ($s_theme && file_exists( public_path('themes/'.$s_theme->slug.'/views/auth/login.blade.php') )) {
             $theme = Theme::uses( $s_theme->slug )->layout('auth');
             $theme->setTitle( config('app.name').' | Login'  );
-
+            // dd( $s_theme );
             return $theme->view('auth.login');
         }
+
+        return view('auth.login');
 
         $s_theme = SiteTheme::where('active', 1)->first();
 

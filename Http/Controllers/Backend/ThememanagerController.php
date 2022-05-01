@@ -361,7 +361,7 @@ class ThememanagerController extends Controller
         return Theme::view($vname, $data);
     }
 
-    public function refresh()
+    public function refresh($console = false)
     {
         $module_title = $this->module_title;
         $module_name = $this->module_name;
@@ -448,9 +448,16 @@ class ThememanagerController extends Controller
 
         // Flash::success("<i class='fas fa-check'></i> Themes Refreshed")->important();
 
+        if( $console === false ){
         Log::info("Themes Refreshed by User:".Auth::user()->name." (ID:".Auth::user()->id.")");
-
         return redirect()->back()->with('success', "Theme Files Were Refreshed");
+        }
+        else {
+            return true;
+        }
+
+
+
 
     }
 

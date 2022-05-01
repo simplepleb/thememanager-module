@@ -1,6 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.app', [
+    'title' => __('Theme Manager'),
+    'parentSection' => 'app-settings',
+    'elementName' => 'theme-manager'
+])
 
 @section('title') {{ __($module_action) }} Themes @stop
+@section('page-title') {{ __($module_action) }} Themes @stop
 
 {{--
 @section('breadcrumbs')
@@ -11,12 +16,18 @@
 --}}
 
 @section('content')
-    @include('partials.header_space', [
-        'title' => __('Theme Manager') ,
-        'description' => __('Manage all of your clients from here'),
-        'class' => 'col-lg-12'
-    ])
-    <div class="container-fluid mt--7">
+    @component('layouts.headers.auth')
+        @component('layouts.headers.breadcrumbs')
+            @slot('title')
+                {{ __('Theme Management') }}
+            @endslot
+
+            <li class="breadcrumb-item"><a href="{{ route('backend.thememanager.index') }}">{{ __('Theme Management') }}</a></li>
+            {{--<li class="breadcrumb-item active" aria-current="page">{{ __('List') }}</li>--}}
+        @endcomponent
+    @endcomponent
+
+    <div class="container-fluid mt--6">
         <div class="card">
             <div class="card-header">
                 <div class="row">
@@ -37,7 +48,7 @@
                             $img_src = null;
                                 $settings = json_decode($theme->settings);
                                 $img_file = base_path('public/themes/'.$settings->slug.'/screenshot.jpeg');
-                                $img_src = file_exists($img_file) ? '/themes/'.$settings->slug.'/screenshot.jpeg' : 'https://via.placeholder.com/1170x780';
+                                $img_src = file_exists($img_file) ? '/themes/'.$settings->slug.'/screenshot.jpeg' : 'https://via.placeholder.com/1170x780.png?text='.ucwords($theme->name);
                         @endphp
                     <div class="col-4">
                         <div class="card @if($theme->active) border-success @endif">
@@ -51,7 +62,7 @@
                                         <button type="button" data-id="{{ $theme->id }}" class="btn @if($theme->active)btn-success @else btn-primary @endif btn-sm @if($theme->active) disabled @endif activate_theme"><i class="fas fa-check-double"></i></button>
                                         <a href="{{ route('backend.thememanager.edit', [ 'thememanager'=> $settings->slug ]) }}"><button type="button" class="btn btn-primary btn-sm" title="Theme Settings"><i class="fas fa-cogs"></i></button></a>
                                         @if(\Module::has('Menumaker'))
-                                            <a @if( theme_has_menus($theme->id) == false) disabled="disabled" @endif href="/admin/menumaker"><button type="button" class="btn btn-primary btn-sm" title="Menus" @if( theme_has_menus($theme->id) == false) disabled @endif><i class="fas fa-sitemap"></i></button></a>
+                                            <a @if( theme_has_menus($theme->id) == false) disabled="disabled" @endif href="{{ route('backend.menumaker.index') }}"><button type="button" class="btn btn-primary btn-sm" title="Menus" @if( theme_has_menus($theme->id) == false) disabled @endif><i class="fas fa-sitemap"></i></button></a>
                                         @endif
                                     </div>
                                 </div>

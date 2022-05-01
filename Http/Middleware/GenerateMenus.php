@@ -36,7 +36,7 @@ class GenerateMenus
      */
     public function handle($request, Closure $next)
     {
-        \Menu::make('admin_sidebar', function ($menu) {
+        /*\Menu::make('admin_sidebar', function ($menu) {
 
             // comments
             $menu->add('<i class="fas fa-spray-can c-sidebar-nav-icon"></i> Site Theme', [
@@ -45,13 +45,13 @@ class GenerateMenus
             ])
                 ->data([
                     'order' => 102,
-                    'activematches' => ['admin/thememanager*'],
+                    'activematches' => ['app/thememanager*'],
                     'permission' => ['view_comments'],
                 ])
                 ->link->attr([
                     'class' => 'c-sidebar-nav-link',
                 ]);
-        })->sortBy('order');
+        })->sortBy('order');*/
 
         return $next($request);
     }
