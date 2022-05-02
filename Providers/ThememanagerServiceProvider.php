@@ -66,20 +66,24 @@ class ThememanagerServiceProvider extends ServiceProvider
             $path_to . '/Resources/views/components' => base_path('resources/views/components'),
         ], 'theme-manager');
 
-        if ( Schema::hasTable('site_themes') ) {
-            $theme = SiteTheme::where('active',1)->first();
-            if( $theme ){
+        try {
+            if ( Schema::hasTable('site_themes') ) {
+                $theme = SiteTheme::where('active',1)->first();
+                if( $theme ){
 
-                $fields = \App\Models\CustomField::where('module', 'thememanager-'.$theme->slug)->get();
-                foreach ($fields as $field) {
-                    // $f[$field->field_name] = $field->field_value;
-                    view()->share($field->field_name, $field->field_value);
-                    /*view()->composer('*', function ($view) use ($field) {
-                        $view->with($field->field_name, $field->field_value);
-                    });*/
+                    $fields = \App\Models\CustomField::where('module', 'thememanager-'.$theme->slug)->get();
+                    foreach ($fields as $field) {
+                        // $f[$field->field_name] = $field->field_value;
+                        view()->share($field->field_name, $field->field_value);
+                        /*view()->composer('*', function ($view) use ($field) {
+                            $view->with($field->field_name, $field->field_value);
+                        });*/
+                    }
+
                 }
-
             }
+        }catch (\Exception $e){
+            // Log the known issue?
         }
 
 
@@ -135,35 +139,31 @@ class ThememanagerServiceProvider extends ServiceProvider
      */
     public function registerTranslations()
     {
-        /*$langPath = resource_path('lang/modules/thememanager');
 
-        if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'thememanager');
-        } else {
-            $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
-        }*/
+        try {
+            if ( Schema::hasTable('site_themes') ) {
+                $active = SiteTheme::where('active', 1)->first();
+                if($active) {
+                    $t_langPath = public_path('themes/'.$active->slug.'/lang');
+                    // dd( $t_langPath);
+                    if (is_dir($t_langPath)){
+                        // $arr[] = $t_langPath;
+                        $this->loadTranslationsFrom($t_langPath, $active->slug);
+                    }
+                    else {
+                        $langPath = resource_path('lang/modules/thememanager');
 
-        if ( Schema::hasTable('site_themes') ) {
-            $active = SiteTheme::where('active', 1)->first();
-            if($active) {
-                $t_langPath = public_path('themes/'.$active->slug.'/lang');
-                // dd( $t_langPath);
-                if (is_dir($t_langPath)){
-                    // $arr[] = $t_langPath;
-                    $this->loadTranslationsFrom($t_langPath, $active->slug);
-                }
-                else {
-                    $langPath = resource_path('lang/modules/thememanager');
-
-                    if (is_dir($langPath)) {
-                        $this->loadTranslationsFrom($langPath, 'thememanager');
-                    } else {
-                        $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
+                        if (is_dir($langPath)) {
+                            $this->loadTranslationsFrom($langPath, 'thememanager');
+                        } else {
+                            $this->loadTranslationsFrom(module_path($this->moduleName, 'Resources/lang'), $this->moduleNameLower);
+                        }
                     }
                 }
             }
+        }catch (\Exception $e ){
+            // Log known issue?
         }
-
 
 
     }
