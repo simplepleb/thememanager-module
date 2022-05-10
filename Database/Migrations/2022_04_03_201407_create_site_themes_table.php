@@ -66,6 +66,9 @@ class CreateSiteThemesTable extends Migration
             $super->givePermissionTo($permission);
             $admin->givePermissionTo($permission);
         }
+
+        $installed_file = storage_path('installed.txt');
+        fopen($installed_file, "w");
     }
 
     /**
