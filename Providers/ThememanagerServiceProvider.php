@@ -67,7 +67,7 @@ class ThememanagerServiceProvider extends ServiceProvider
         ], 'theme-manager');
 
         try {
-            if ( file_exists(storage_path('installed.txt')) ) {
+            if ( !app()->runningInConsole()) {
                 $theme = SiteTheme::where('active',1)->first();
                 if( $theme ){
 
@@ -141,7 +141,7 @@ class ThememanagerServiceProvider extends ServiceProvider
     {
 
         try {
-            if ( file_exists(storage_path('installed.txt')) ) {
+            if ( !app()->runningInConsole()) {
                 $active = SiteTheme::where('active', 1)->first();
                 if($active) {
                     $t_langPath = public_path('themes/'.$active->slug.'/lang');
