@@ -144,7 +144,7 @@ class ThememanagerController extends Controller
 
         if ( \Module::has('Menumaker')) {
 
-            $file = public_path('themes/'.$theme->slug.'/custom_fields.json');
+            $file = resource_path('themes/'.$theme->slug.'/custom_fields.json');
             if( file_exists($file )) {
                 $json_menu = json_decode(file_get_contents($file));
                 if( isset($json_menu->menus) ){
@@ -227,16 +227,17 @@ class ThememanagerController extends Controller
     public static function import_fields($slug){
 
         $custom_fields = CustomField::where('module', 'thememanager-'.$slug)->get();
-        if( count($custom_fields) > 0 )
+        if( count($custom_fields) > 0 || !file_exists(resource_path('themes/'.$slug.'/custom_fields.json')))
             return; // already imported
 
-        $fields_file = public_path('themes/'.$slug.'/custom_fields.json');
-        // dd( $fields_file );
+        $fields_file = resource_path('themes/'.$slug.'/custom_fields.json');
+// dd( $slug,file_get_contents($fields_file) );
+        // dd( $fields_file->fields );
         if( file_exists($fields_file)) {
             $fields_json = json_decode( file_get_contents($fields_file) );
-            // dd( $fields_json );
+            if( !empty($fields_json))
             foreach( $fields_json->fields as $row ){
-                // dd( $row->field_value, 'therer' );
+
                 $field = new CustomField();
                 $field->field_name = $row->field_name;
                 $field->module = 'thememanager-'.$slug;

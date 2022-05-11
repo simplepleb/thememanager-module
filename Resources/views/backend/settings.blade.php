@@ -1,4 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.app', [
+    'title' => __('Theme Manager'),
+    'parentSection' => 'app-settings',
+    'elementName' => 'theme-manager'
+])
 
 @section('title') {{ __($module_action) }} {{ $module_title }} @endsection
 
@@ -12,12 +16,18 @@
 @endsection--}}
 
 @section('content')
-    @include('partials.header_space', [
-        'title' => __('Theme Manager') ,
-        'description' => __('Manage all of your clients from here'),
-        'class' => 'col-lg-12'
-    ])
-    <div class="container-fluid mt--7">
+    @component('layouts.headers.auth')
+        @component('layouts.headers.breadcrumbs')
+            @slot('title')
+                {{ __('Theme Management') }}
+            @endslot
+
+            <li class="breadcrumb-item"><a href="{{ route('backend.thememanager.index') }}">{{ __('Theme Management') }}</a></li>
+            {{--<li class="breadcrumb-item active" aria-current="page">{{ __('List') }}</li>--}}
+        @endcomponent
+    @endcomponent
+
+    <div class="container-fluid mt--6">
         <div class="col">
             <div class="card">
                 <div class="card-header">
