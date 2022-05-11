@@ -100,7 +100,7 @@ class ThememanagerController extends Controller
         // If no themes in the db lets refresh from file system
         if( $themes->isEmpty() ) {
             self::refresh();
-            $themes = $module_model::get();
+            $themes = $module_model::whereNotNull('settings')->get();
         }
 
 
@@ -337,7 +337,7 @@ class ThememanagerController extends Controller
 
         // Log::info(label_case($module_title.' '.$module_action)." | '".$$module_name_singular->name.'(ID:'.$$module_name_singular->id.") ' by User:".Auth::user()->name.'(ID:'.Auth::user()->id.')');
 
-        return redirect("admin/thememanager");
+        return redirect()->route('backend.thememanager');
     }
 
     /**
@@ -372,8 +372,8 @@ class ThememanagerController extends Controller
 
         $module_action = 'Store';
 
-        $dir = public_path('themes/').'*';
-        $path = public_path().'/themes/';
+        $dir = resource_path('themes/').'*';
+        $path = resource_path().'/themes/';
         $theme_setings = array();
         $page_styles = array();
 

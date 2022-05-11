@@ -43,13 +43,16 @@
             <div class="card-body">
                 <div class="row mt-4">
                     @php $cnt = 0; @endphp
+
                     @foreach($themes as $theme)
+                        @isset( $theme->settings )
                         @php
                             $img_src = null;
                                 $settings = json_decode($theme->settings);
                                 $img_file = base_path('public/themes/'.$settings->slug.'/screenshot.jpeg');
                                 $img_src = file_exists($img_file) ? '/themes/'.$settings->slug.'/screenshot.jpeg' : 'https://via.placeholder.com/1170x780.png?text='.ucwords($theme->name);
                         @endphp
+
                     <div class="col-4">
                         <div class="card @if($theme->active) border-success @endif">
                             <img class="card-img-top" src="{{ $img_src }}" alt="Theme Name">
@@ -59,19 +62,24 @@
 
                                 <div class="row justify-content-center align-content-center bg-primary">
                                     <div class="btn-group" role="group" aria-label="Basic example">
+                                            @if(\Auth::user()->hasRole('Super Admin') || $settings->public)
                                         <button type="button" data-id="{{ $theme->id }}" class="btn @if($theme->active)btn-success @else btn-primary @endif btn-sm @if($theme->active) disabled @endif activate_theme"><i class="fas fa-check-double"></i></button>
                                         <a href="{{ route('backend.thememanager.edit', [ 'thememanager'=> $settings->slug ]) }}"><button type="button" class="btn btn-primary btn-sm" title="Theme Settings"><i class="fas fa-cogs"></i></button></a>
+
                                         @if(\Module::has('Menumaker'))
                                             <a @if( theme_has_menus($theme->id) == false) disabled="disabled" @endif href="{{ route('backend.menumaker.index') }}"><button type="button" class="btn btn-primary btn-sm" title="Menus" @if( theme_has_menus($theme->id) == false) disabled @endif><i class="fas fa-sitemap"></i></button></a>
                                         @endif
+                                            @endif
                                     </div>
                                 </div>
 
                             </div>
                         </div>
                     </div>
+
                         @php($cnt++)
                         @if($cnt == 3)@php( $cnt = 0)</div><div class="row mt-4"> @endif
+                        @endisset
                     @endforeach
                 </div>
             </div>
